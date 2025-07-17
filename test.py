@@ -39,4 +39,18 @@ class TestBatch(unittest.TestCase):
 
         self.assertEqual(batch.can_allocate(different_sku_line), False)
 
+    def test_can_only_deallocate_allocated_lines(self):
+        batch, unallocated_line = self.make_batch_and_line("ELEGANT-LAMP", 20, 2)
+        batch.deallocate(unallocated_line)
+
+        self.assertEqual(batch.available_quantity, 20)
+
+    def test_allocation_is_idempotent(self):
+        batch, line = self.make_batch_and_line("GRAND-PIANO", 20, 2)
+        batch.allocate(line)
+        batch.allocate(line)
+        self.assertEqual(batch.available_quantity, 18)
+    
+
+
     
