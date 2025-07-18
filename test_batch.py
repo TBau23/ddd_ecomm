@@ -1,5 +1,5 @@
 import unittest
-from main import Batch, OrderLine
+from batch import Batch, OrderLine
 from datetime import date
 
 
