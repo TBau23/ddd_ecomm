@@ -1,0 +1,6 @@
+# Development dependencies
+pytest==7.4.3
+
+# Production dependencies (add these as your project grows)
+# requests==2.31.0
+# flask==3.0.0 

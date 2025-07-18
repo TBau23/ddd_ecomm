@@ -17,6 +17,14 @@ class Batch:
         self._purchased_quantity = qty
         self._allocations = set()
 
+    def __gt__(self, other):
+        if self.eta is None:
+            return False
+        if other.eta is None:
+            return False
+        
+        return self.eta > other.eta
+
     def allocate(self, line: OrderLine):
         if self.can_allocate(line):
             self._allocations.add(line)
