@@ -1,5 +1,7 @@
 from batch import Batch, OrderLine
 from datetime import date, timedelta
+from model import allocate, OutOfStock
+import pytest
 
 
 def test_prefers_current_stock_batches_to_shipments():
@@ -36,3 +38,12 @@ def test_returns_allocated_batch_ref():
     allocation = allocate(line, [in_stock_batch, shipment_batch])
 
     assert allocation == in_stock_batch.reference
+
+def test_raises_out_of_stock_exception_if_cannot_allocate():
+    b1 = Batch('in-stock', 'PURPLE-LAMP', 10, eta=None)
+    line1 = OrderLine('oref', 'PURPLE-LAMP', 10)
+
+    allocate(line1, [b1])
+
+    with pytest.raises(OutOfStock, match='PURPLE-LAMP'):
+        allocate(OrderLine('oref2', 'PURPLE-LAMP', 1), [b1])
